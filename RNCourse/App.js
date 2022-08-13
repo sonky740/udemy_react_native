@@ -1,12 +1,7 @@
 import { useState } from 'react';
-import {
-  Button,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import { Button, FlatList, StyleSheet, TextInput, View } from 'react-native';
+
+import GoalItem from './components/GoalItem';
 
 export default function App() {
   const [enteredGoalText, setEnteredGoalText] = useState('');
@@ -19,7 +14,7 @@ export default function App() {
   function addGoalHandler() {
     setCourseGoals((currentCourseGoals) => [
       ...currentCourseGoals,
-      enteredGoalText,
+      { text: enteredGoalText, id: Math.random().toString() }, // FlatList는 key를 알아서 찾지만, 이런식으로 따로 생성해주는게 좋음.
     ]);
   }
 
@@ -30,17 +25,22 @@ export default function App() {
           style={styles.textInput}
           placeholder="Your course goal!"
           onChangeText={goalInputHandler}
+          onEndEditing={addGoalHandler}
         />
         <Button title="Add Goal" onPress={addGoalHandler} />
       </View>
       <View style={styles.goalsContainer}>
-        <ScrollView alwaysBounceVertical={false}>
-          {courseGoals.map((goal, i) => (
-            <View key={i} style={styles.goalItem}>
-              <Text style={styles.goalText}>{goal}</Text>
-            </View>
-          ))}
-        </ScrollView>
+        {/* 성능적으로 FlatList > ScrollView */}
+        <FlatList
+          alwaysBounceVertical={false}
+          data={courseGoals}
+          keyExtractor={(item) => {
+            return item.id;
+          }}
+          renderItem={(itemData) => {
+            <GoalItem text={itemData.item.text} />;
+          }}
+        />
       </View>
     </View>
   );
@@ -70,14 +70,5 @@ const styles = StyleSheet.create({
   },
   goalsContainer: {
     flex: 5,
-  },
-  goalItem: {
-    margin: 8,
-    padding: 8,
-    borderRadius: 6,
-    backgroundColor: '#5e0acc',
-  },
-  goalText: {
-    color: '#fff',
   },
 });
