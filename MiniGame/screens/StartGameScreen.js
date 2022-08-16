@@ -2,7 +2,9 @@ import { useState } from 'react';
 import { StyleSheet, TextInput, View, Alert } from 'react-native';
 import PrimaryButton from '../components/PrimaryButton';
 
-function StartGameScreen() {
+import Colors from '../constants/colors';
+
+function StartGameScreen({ onPickNumber }) {
   const [enteredNumber, setEnteredNumber] = useState('');
 
   function numberInputHandler(enteredText) {
@@ -31,7 +33,7 @@ function StartGameScreen() {
       return;
     }
 
-    console.log('Valid Number!');
+    onPickNumber(chosenNumber);
   }
 
   return (
@@ -62,7 +64,7 @@ const styles = StyleSheet.create({
     padding: 16,
     marginTop: 100,
     marginHorizontal: 24,
-    backgroundColor: '#72063c',
+    backgroundColor: Colors.primary800,
     borderRadius: 8,
     shadowColor: 'black',
     shadowOffset: { width: 0, height: 2 }, // IOS 전용
@@ -74,11 +76,11 @@ const styles = StyleSheet.create({
     height: 50,
     width: 50,
     marginVertical: 8,
-    borderBottomColor: '#ddb52f',
+    borderBottomColor: Colors.accent500,
     borderBottomWidth: 2,
     fontSize: 32,
     fontWeight: 'bold',
-    color: '#ddb52f',
+    color: Colors.accent500,
     textAlign: 'center',
   },
   buttonsConatiner: {
