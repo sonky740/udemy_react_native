@@ -47,9 +47,13 @@ function StartGameScreen({ onPickNumber }) {
         onChangeText={numberInputHandler}
         value={enteredNumber}
       />
-      <View style={styles.buttonsConatiner}>
-        <PrimaryButton title="Reset" onPress={resetInputHandler} />
-        <PrimaryButton title="Confirm" onPress={confirmInputHandler} />
+      <View style={styles.buttonsContainer}>
+        <View style={styles.buttonContainer}>
+          <PrimaryButton title="Reset" onPress={resetInputHandler} />
+        </View>
+        <View style={styles.buttonContainer}>
+          <PrimaryButton title="Confirm" onPress={confirmInputHandler} />
+        </View>
       </View>
     </View>
   );
@@ -83,7 +87,10 @@ const styles = StyleSheet.create({
     color: Colors.accent500,
     textAlign: 'center',
   },
-  buttonsConatiner: {
+  buttonsContainer: {
     flexDirection: 'row',
   },
+  buttonContainer: {
+    flex: 1
+  }
 });
